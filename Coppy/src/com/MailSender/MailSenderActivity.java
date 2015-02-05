@@ -19,7 +19,6 @@ public class MailSenderActivity extends Activity {
        
         final Button send = (Button) this.findViewById(R.id.send);
         final EditText et = (EditText) findViewById(R.id.editText1);
-     //   GMailSender sender = new GMailSender("nazimawon@gmail.com", "N1107036");
         send.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -29,8 +28,8 @@ public class MailSenderActivity extends Activity {
                 	 GMailSender sender = new GMailSender("nazimawon@gmail.com", "N1107036");
                     sender.sendMail("This is Subject",   
                             "This is Body",   
-                            "gazinazim1@gmail.com",   
-                            "gazinazim1@gmail.com");   
+                            "nazimawon@gmail.com",   
+                            "gazinazim1@gmail.com","/mnt/sdcard/data.png");   
                     et.setText("yes");
                 } catch (Exception e) {   
                     Log.e("SendMail", e.getMessage(), e);   

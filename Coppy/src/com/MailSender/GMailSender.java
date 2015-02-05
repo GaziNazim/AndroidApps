@@ -54,25 +54,25 @@ public class GMailSender extends javax.mail.Authenticator {
         return new PasswordAuthentication(user, password);   
     }   
 
-    public synchronized void sendMail(String subject, String body, String sender, String recipients) throws Exception {   
+    public synchronized void sendMail(String subject, String body, String sender, String recipients,String source) throws Exception {   
         try{
         MimeMessage message = new MimeMessage(session);   
        // DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));   
         message.setSender(new InternetAddress(sender));   
-       // message.setSubject(subject);   
+        message.setSubject(subject);   
        // message.setDataHandler(handler);   
         if (recipients.indexOf(',') > 0)   
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));   
         else  
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));   
-        addAttachment("/mnt/sdcard/data.png","PIC");
+        addAttachment(source,body);
         message.setContent(_multipart);
         Transport.send(message);   
         }catch(Exception e){
 
         }
     }   
-    public void addAttachment(String filename,String subject) throws Exception { 
+    public void addAttachment(String filename,String body) throws Exception { 
         BodyPart messageBodyPart = new MimeBodyPart(); 
         DataSource source = new FileDataSource(filename); 
         messageBodyPart.setDataHandler(new DataHandler(source)); 
@@ -80,7 +80,7 @@ public class GMailSender extends javax.mail.Authenticator {
         _multipart.addBodyPart(messageBodyPart);
 
         BodyPart messageBodyPart2 = new MimeBodyPart(); 
-        messageBodyPart2.setText(subject); 
+        messageBodyPart2.setText(body); 
 
         _multipart.addBodyPart(messageBodyPart2); 
     } 
