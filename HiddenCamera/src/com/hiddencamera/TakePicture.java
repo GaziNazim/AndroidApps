@@ -21,8 +21,8 @@ public class TakePicture {
 	private CameraPreview mPreview;
 	public static final int MEDIA_TYPE_IMAGE = 1;
 	public static final int MEDIA_TYPE_VIDEO = 2;
-	private String address;
-
+	String add;
+	File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
     
 	  private void releaseCamera(){
 	        if (mCamera != null){
@@ -30,15 +30,21 @@ public class TakePicture {
 	            mCamera = null;
 	        }
 	    }
+	  public TakePicture() {
+		// TODO Auto-generated constructor stub
+		  mCamera=getCInstance();
+		  mCamera.takePicture(null, null, mPicture);	
+	}
+	  
 	//  TextView tv = (TextView) findViewById(R.id.textView1);
 	private PictureCallback mPicture= new PictureCallback() {
 		
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
-		
+			//TextView tv = (TextView) findViewById(R.id.textView1);
 			
 			// TODO Auto-generated method stub
-			File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+			//File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
 			if(pictureFile==null){
 				Log.d("PictureFile","Error creating file, check storage permissions: ");
 			   return;
@@ -47,16 +53,16 @@ public class TakePicture {
 				FileOutputStream fos = new FileOutputStream(pictureFile);
 				fos.write(data);
 				fos.close();
-				address=pictureFile.toString();
-			
+				add=pictureFile.toString();
+				//tv.append(add);
 			}catch(FileNotFoundException e){
 				Log.d("FileOutputstream","File not found " + e.getMessage());
-			
+				//tv.append("NOT");
 			}
 			catch(IOException e)
 			{
 				Log.d("IO Exception","Error accessing file " + e.getMessage());
-			
+				//tv.append("NOT");
 			}
 			//releaseCamera();
 		}
@@ -123,11 +129,4 @@ public class TakePicture {
 		return c;
 	}
 	
-	String init()
-	{
-		mCamera = getCInstance();
-		  mCamera.takePicture(null, null, mPicture);	
-		  return address;
-	}
-
 }
