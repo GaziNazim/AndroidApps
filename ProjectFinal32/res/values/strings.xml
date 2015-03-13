@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="go_to">Go to lock screen</string>
+    <string name="lock">Lock the device</string>
+    <string name="update">Update sending Email</string>
+    <color name="black">#000000</color>
     <string name="app_name">ProjectFinal32</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>

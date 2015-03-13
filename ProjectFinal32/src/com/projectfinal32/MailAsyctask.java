@@ -9,11 +9,11 @@ public class MailAsyctask extends AsyncTask<String, String, String>{
 	protected String doInBackground(String... params) {
 		// TODO Auto-generated method stub
 		
-		 Mail m = new Mail("nazimawon@gmail.com", "N1107036"); 
+		 Mail m = new Mail(params[0],params[2]); 
 		 
-	      String[] toArr = {"gazinazim1@gmail.com", "gazimnazim1@gmail.com"}; 
+	      String[] toArr = {params[1],params[1]}; 
 	      m.setTo(toArr); 
-	      m.setFrom("nazimawon@gmail.com"); 
+	      m.setFrom(params[0]); 
 	      m.setSubject("This is an email sent using my Mail JavaMail wrapper from an Android device."); 
 	      m.setBody("Email body."); 
 	 

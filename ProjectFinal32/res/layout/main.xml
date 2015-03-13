@@ -1,55 +1,38 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context=".DevicePolicyDemoActivity" >
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hello_world" />
 
     <ToggleButton
         android:id="@+id/toggle_device_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="28dp"
         android:text="toggle_device_admin" />
 
     <Button
         android:id="@+id/button_lock_device"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button_reset_device"
-        android:layout_below="@+id/textView1"
-        android:layout_marginLeft="50dp"
+        android:layout_marginTop="7dp"
         android:onClick="onClick"
-        android:text="lock_device" />
+        android:text="@string/lock" />
 
     <Button
         android:id="@+id/button_reset_device"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toggle_device_admin"
-        android:layout_marginTop="76dp"
-        android:layout_toRightOf="@+id/toggle_device_admin"
+        android:layout_marginTop="7dp"
         android:onClick="onClick"
-        android:text="reset_device" />
+        android:text="@string/go_to" />
 
     <Button
         android:id="@+id/Go_to_second"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+         android:layout_marginTop="7dp"
         android:layout_marginBottom="86dp"
-        android:text="Go_to_second" />
+        android:text="@string/update" />
 
-</RelativeLayout>
+</LinearLayout>

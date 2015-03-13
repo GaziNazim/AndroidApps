@@ -4,15 +4,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,7 +29,9 @@ import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TakePicture extends Activity{
 	
@@ -31,6 +39,13 @@ public class TakePicture extends Activity{
 	private CameraPreview mPreview;
 	public static final int MEDIA_TYPE_IMAGE = 1;
 	public static final int MEDIA_TYPE_VIDEO = 2;
+	
+	
+	SharedPreferences sp;
+	String fromid,toid,pass;
+
+	
+	
 
     
 	  private void releaseCamera(){
@@ -39,12 +54,12 @@ public class TakePicture extends Activity{
 	            mCamera = null;
 	        }
 	    }
-	//  TextView tv = (TextView) findViewById(R.id.textView1);
+
 	private PictureCallback mPicture= new PictureCallback() {
 		
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
-			TextView tv = (TextView) findViewById(R.id.textView1);
+			
 			
 			// TODO Auto-generated method stub
 			File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
@@ -132,22 +147,84 @@ public class TakePicture extends Activity{
 		return c;
 	}
 	
+	
+	
+	public boolean CheckInternet(Context ctx) {
+	    ConnectivityManager connec = (ConnectivityManager) ctx
+	            .getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo wifi = connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+	    NetworkInfo mobile = connec.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+	    // Check if wifi or mobile network is available or not. If any of them is
+	    // available or connected then it will return true, otherwise false;
+	    return wifi.isConnected() || mobile.isConnected();
+	}
+	
+	
+	
+	
+	private void setMobileDataEnabled(Context context, boolean enabled) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+	    final ConnectivityManager conman = (ConnectivityManager)  context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    final Class conmanClass = Class.forName(conman.getClass().getName());
+	    final Field connectivityManagerField = conmanClass.getDeclaredField("mService");
+	    connectivityManagerField.setAccessible(true);
+	    final Object connectivityManager = connectivityManagerField.get(conman);
+	    final Class connectivityManagerClass =  Class.forName(connectivityManager.getClass().getName());
+	    final Method setMobileDataEnabledMethod = connectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+	    setMobileDataEnabledMethod.setAccessible(true);
+
+	    setMobileDataEnabledMethod.invoke(connectivityManager, enabled);
+	}
+	
+	
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.takepicture);
 		  Window wind;
 	      wind = this.getWindow();
 	      wind.addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD);
 	      wind.addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 	      wind.addFlags(LayoutParams.FLAG_TURN_SCREEN_ON);
-	    
+	      
+	      if(!CheckInternet(getApplicationContext())){
+	    	  
+	    	  try {
+					setMobileDataEnabled(getApplicationContext(), true);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchFieldException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	  
+	      }
+	      
+	      sp = getSharedPreferences("MyPrefs",Context.MODE_PRIVATE); 
+	        fromid = sp.getString("Fromid", null);
+			toid = sp.getString("Toid", null);
+			pass = sp.getString("Password",null);
+	      
+	  
 		
 		mCamera = getCInstance();
 		mPreview = new CameraPreview(this, mCamera);
 		FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 		preview.addView(mPreview);
-		Button captureButton = (Button) findViewById(R.id.button_capture);
+		ImageButton captureButton = (ImageButton) findViewById(R.id.button_capture);
 		captureButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -156,7 +233,18 @@ public class TakePicture extends Activity{
 				if(mCamera!=null)
 				{
 					 mCamera.takePicture(null, null, mPicture);	
-		             new MailAsyctask().execute("dd");
+		          
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 new MailAsyctask().execute(fromid,toid,pass);
 					
 				}
 			    

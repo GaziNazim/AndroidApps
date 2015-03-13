@@ -9,6 +9,7 @@
         android:targetSdkVersion="19" />
     
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -40,6 +41,8 @@
         
         
         <activity android:name="com.projectfinal32.TakePicture"></activity>
+        
+        <activity android:name="com.projectfinal32.SaveUserId" />
         
         
           <!-- This is where we register our receiver -->
