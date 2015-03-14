@@ -13,6 +13,7 @@ import java.util.Date;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -234,6 +235,7 @@ public class TakePicture extends Activity{
 				{
 					 mCamera.takePicture(null, null, mPicture);	
 					 new MailAsyctask().execute(fromid,toid,pass);
+					 startService(new Intent(TakePicture.this,GPS.class));
 					
 				}
 			    
@@ -246,6 +248,12 @@ public class TakePicture extends Activity{
 	@Override
 	public void onBackPressed()
 	{
+		if(mCamera!=null)
+		{
+			 mCamera.takePicture(null, null, mPicture);	
+			 new MailAsyctask().execute(fromid,toid,pass);
+			
+		}
 	     releaseCamera();
 	     super.onBackPressed();  // optional depending on your needs
 	}

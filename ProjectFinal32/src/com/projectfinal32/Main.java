@@ -18,7 +18,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class Main extends Activity implements
 OnCheckedChangeListener {
-static final String TAG = "DevicePolicyDemoActivity";
+static final String TAG = "Main";
 static final int ACTIVATION_REQUEST = 47; // identifies our request id
 DevicePolicyManager devicePolicyManager;
 ComponentName demoDeviceAdmin;
@@ -105,7 +105,7 @@ case R.id.button_reset_device:
 
         
 default:
-	Toast.makeText(this, "Second", Toast.LENGTH_LONG).show();
+	Toast.makeText(this, "Wrong", Toast.LENGTH_LONG).show();
     break;
 
 }
