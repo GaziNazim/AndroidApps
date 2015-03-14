@@ -233,17 +233,6 @@ public class TakePicture extends Activity{
 				if(mCamera!=null)
 				{
 					 mCamera.takePicture(null, null, mPicture);	
-		          
-					 
-					 
-					 
-					 
-					 
-					 
-					 
-					 
-					 
-					 
 					 new MailAsyctask().execute(fromid,toid,pass);
 					
 				}

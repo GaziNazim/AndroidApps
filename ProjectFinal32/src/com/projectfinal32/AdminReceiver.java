@@ -1,6 +1,7 @@
 package com.projectfinal32;
 
 import android.app.admin.DeviceAdminReceiver;
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
@@ -53,10 +54,17 @@ public class AdminReceiver extends DeviceAdminReceiver {
 		super.onPasswordFailed(context, intent);
 //		Toast.makeText(context,"Not Succed",
 //				Toast.LENGTH_LONG).show();
-		    Intent i = new Intent();
-	        i.setClassName("com.projectfinal32", "com.projectfinal32.TakePicture");
-	        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	        context.startActivity(i);
+		
+		  DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+	        Integer currentFailedPasswordAttempts = devicePolicyManager.getCurrentFailedPasswordAttempts(); 
+		    
+		if(currentFailedPasswordAttempts==3){
+			  Intent i = new Intent();
+		        i.setClassName("com.projectfinal32", "com.projectfinal32.TakePicture");
+		        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		        context.startActivity(i);
+		}
+		  
 	}
 
 	@Override
